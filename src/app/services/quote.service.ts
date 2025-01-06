@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiEndPoint, RandomQuoteEndpoint } from './endpoints';
+import { QuoteModel } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +12,11 @@ import { Injectable } from '@angular/core';
 
 export class QuoteService {
 
+
   constructor(private http: HttpClient) { }
-  fetchQuote()
-  {
-    return this.http.get("https://dummyjson.com/quotes/random");
-  }
+
+
+  fetchQuote = (): Observable<QuoteModel> => {
+    return this.http.get<QuoteModel>(RandomQuoteEndpoint);
+  };
 }

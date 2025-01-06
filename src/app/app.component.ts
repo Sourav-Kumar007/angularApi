@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component,OnInit  } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { QuoteService } from './services/quote.service';
+import { QuoteModel } from './models';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,12 @@ import { QuoteService } from './services/quote.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-interface Quote {
-  id?: number;
-  quote?: string;
-  author?: string;
-}
+
 export class AppComponent {
 
-  quoteList : string | undefined = '';
+  quoteList : string = '';
 
-  constructor(private q:QuoteService){
+  constructor(private httpService:QuoteService){
 
   }
   ngOnInit() {
@@ -27,8 +24,8 @@ export class AppComponent {
   }
    
   fetchQuote(){
-    this.q.fetchQuote().subscribe((res : Quote) =>{
-       this.quoteList = res.quote ;
+    this.httpService.fetchQuote().subscribe((res : QuoteModel) =>{
+       this.quoteList = res.quote  ?? '';
     })
   }
  
