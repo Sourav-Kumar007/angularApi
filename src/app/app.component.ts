@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component,OnInit  } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { QuoteService } from './services/quote.service';
 
 @Component({
   selector: 'app-root',
@@ -9,23 +10,25 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
+interface Quote {
+  id?: number;
+  quote?: string;
+  author?: string;
+}
 export class AppComponent {
 
-  userList : string = '';
+  quoteList : string | undefined = '';
 
-  constructor(private http: HttpClient)
-  {
+  constructor(private q:QuoteService){
 
   }
   ngOnInit() {
-    this.fetchQuote();
+     this.fetchQuote();
   }
-
-  fetchQuote()
-  {
-    this.http.get('https://dummyjson.com/quotes/random').subscribe((result : any) => {
-      this.userList = result.quote;
-      console.log(this.userList);
+   
+  fetchQuote(){
+    this.q.fetchQuote().subscribe((res : Quote) =>{
+       this.quoteList = res.quote ;
     })
   }
  
